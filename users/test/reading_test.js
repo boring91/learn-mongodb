@@ -36,8 +36,8 @@ describe("Reading users out of the database", () => {
       .limit(2)
       .then((users) => {
         assert(users.length === 2);
-        // assert(users[0].name === "Joe");
-        // assert(users[0].name === "Maria");
+        assert(users[0].name === "Joe");
+        assert(users[1].name === "Maria");
         done();
       });
   });
