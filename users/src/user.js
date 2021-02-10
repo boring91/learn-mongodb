@@ -13,10 +13,23 @@ const UserSchema = new Schema({
   },
   posts: [PostSchema],
   likes: Number,
+  blogPosts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "blogPost",
+    },
+  ],
 });
 
 UserSchema.virtual("postCount").get(function () {
   return this.posts.length;
+});
+
+UserSchema.pre("remove", function (next) {
+  // this === joe
+  const BlogPost = mongoose.model("blogPost");
+
+  BlogPost.deleteMany({ _id: { $in: this.blogPosts } }).then(() => next());
 });
 
 const User = mongoose.model("user", UserSchema);
